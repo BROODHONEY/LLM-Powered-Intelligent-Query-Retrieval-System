@@ -1,0 +1,6 @@
+sentence-transformers
+openai
+torch
+google-generativeai
+dotenv
+ollama pull mistral
