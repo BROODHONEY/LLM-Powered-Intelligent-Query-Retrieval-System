@@ -4,3 +4,10 @@ torch
 google-generativeai
 dotenv
 ollama pull mistral
+pymupdf
+langchain
+pinecone-client
+InstructorEmbedding
+faiss-cpu
+fastapi
+uvicorn
