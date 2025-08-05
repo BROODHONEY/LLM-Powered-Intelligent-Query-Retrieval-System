@@ -33,7 +33,7 @@ Respond in **this exact JSON format**:
             input=prompt.encode("utf-8"),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            timeout=60
+            timeout=120
         )
 
         output = result.stdout.decode("utf-8").strip()

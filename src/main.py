@@ -1,7 +1,7 @@
 from query_parser import parse_query
 from embedder import embed_clauses, embed_query
 from retriever import retrieve_top_clauses
-from decision_engine_gemini import evaluate_decision
+from decision_engine_ollama import evaluate_decision
 
 def main():
     with open("data/clauses.txt") as f:
