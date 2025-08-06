@@ -12,7 +12,7 @@ CHUNKS_PATH = "vector_store/chunks.pkl"
 def semantic_search(query: str, faiss_index: faiss.IndexFlatL2, chunks: List[str], top_k: int = 5) -> List[Dict]:
     model = get_embedding_model()
     instruction = "Represent the document for retrieval:"
-    query_embedding = model.encode([[instruction, query]])
+    query_embedding = model.encode([instruction, query], normalize_embeddings=True, show_progress_bar=True)
 
     scores, indices = faiss_index.search(query_embedding, top_k)
 

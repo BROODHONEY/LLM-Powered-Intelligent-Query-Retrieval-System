@@ -13,7 +13,7 @@ You are a policy assistant. Based on the query and relevant policy clauses below
 - Policy Duration: {parsed_query.get("policy_duration")} months
 
 ### Relevant Clauses:
-{chr(10).join(retrieved_clauses)}
+{chr(10).join(retrieved_clause["chunk"] for retrieved_clause in retrieved_clauses)}
 
 ### Task:
 Determine whether the claim should be approved, the payout amount (if applicable), and provide a justification that references the relevant clauses.
