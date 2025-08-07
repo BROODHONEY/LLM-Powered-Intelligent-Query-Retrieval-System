@@ -10,7 +10,7 @@ import numpy as np
 INDEX_PATH = "vector_store/faiss.index"
 CHUNKS_PATH = "vector_store/chunks.pkl"
 
-def build_or_load_faiss() -> Tuple[faiss.IndexFlatL2, List[str]]:
+def build_or_load_faiss(chunks) -> Tuple[faiss.IndexFlatL2, List[str]]:
     os.makedirs("vector_store", exist_ok=True)
 
     if os.path.exists(INDEX_PATH) and os.path.exists(CHUNKS_PATH):
@@ -21,22 +21,12 @@ def build_or_load_faiss() -> Tuple[faiss.IndexFlatL2, List[str]]:
 
     print("[INFO] Building new FAISS index...")
 
-    # Step 1: Extract text
-    print("[STEP 1] Extracting text from PDFs...")
-    texts = extract_text_from_pdfs("data")
-    print(f"[INFO] Extracted {len(texts)} documents.")
-
-    # Step 2: Split into chunks
-    print("[STEP 2] Splitting documents into chunks...")
-    chunks = split_into_chunks(texts)
-    print(f"[INFO] Split into {len(chunks)} chunks.")
-
     # Step 3: Get embedding model
-    print("[STEP 3] Loading embedding model...")
+    print("[INFO] Loading embedding model...")
     model = get_embedding_model()
 
     # Step 4: Generate embeddings
-    print("[STEP 4] Creating embeddings...")
+    print("[INFO] Creating embeddings...")
     instruction = "Represent the document for retrieval:"
     embeddings = []
 
@@ -47,15 +37,15 @@ def build_or_load_faiss() -> Tuple[faiss.IndexFlatL2, List[str]]:
     embeddings = np.array(embeddings)
 
     # Step 5: Create and fill FAISS index
-    print("[STEP 5] Creating FAISS index...")
+    print("[INFO] Creating FAISS index...")
     dim = embeddings.shape[1]
     index = faiss.IndexFlatL2(dim)
 
-    print("[STEP 6] Adding embeddings to index...")
+    print("[INFO] Adding embeddings to index...")
     index.add(embeddings)
 
     # Step 7: Save index and chunks
-    print("[STEP 7] Saving index and chunks to disk...")
+    print("[INFO] Saving index and chunks to disk...")
     faiss.write_index(index, INDEX_PATH)
     save_pickle(chunks, CHUNKS_PATH)
 
