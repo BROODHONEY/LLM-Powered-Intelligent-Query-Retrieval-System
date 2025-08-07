@@ -3,6 +3,7 @@ import pickle
 import fitz  # PyMuPDF
 import tempfile
 import requests
+import pdfplumber
 from typing import List
 
 def extract_text_from_pdfs(directory: str) -> str:
@@ -23,13 +24,10 @@ def download_and_split_pdf(pdf_url: str, chunk_size: int = 300) -> List[str]:
         tmp_file.write(response.content)
         tmp_path = tmp_file.name
 
-    doc = fitz.open(tmp_path)
-    full_text = ""
-    for page in doc:
-        full_text += page.get_text()
-    doc.close()
-    os.remove(tmp_path)
-
+    with pdfplumber.open(tmp_path) as pdf:
+        full_text = "\n".join([page.extract_text() for page in pdf.pages])
+    os.remove(tmp_path)  # Clean up temporary file
+    
     return split_into_chunks(full_text)
 
 def split_into_chunks(text: str, chunk_size: int = 500, overlap: int = 50) -> list:

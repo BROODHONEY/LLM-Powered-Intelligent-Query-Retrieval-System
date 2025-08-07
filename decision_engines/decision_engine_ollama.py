@@ -31,7 +31,8 @@ def generate_answers(question: str, retrieved_clauses: List[str]) -> str:
 
     response = ollama.chat(
         model='mistral',
-        messages=[{"role": "user", "content": prompt}]
+        messages=[{"role": "user", "content": prompt}],
+        options={"num_predict": 200}
     )
 
     return response['message']['content'].strip()

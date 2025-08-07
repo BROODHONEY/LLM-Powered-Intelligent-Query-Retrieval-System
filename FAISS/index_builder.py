@@ -9,6 +9,8 @@ import numpy as np
 
 INDEX_PATH = "vector_store/faiss.index"
 CHUNKS_PATH = "vector_store/chunks.pkl"
+model = get_embedding_model()
+
 
 def build_or_load_faiss(chunks) -> Tuple[faiss.IndexFlatL2, List[str]]:
     os.makedirs("vector_store", exist_ok=True)
@@ -21,17 +23,13 @@ def build_or_load_faiss(chunks) -> Tuple[faiss.IndexFlatL2, List[str]]:
 
     print("[INFO] Building new FAISS index...")
 
-    # Step 3: Get embedding model
-    print("[INFO] Loading embedding model...")
-    model = get_embedding_model()
-
     # Step 4: Generate embeddings
     print("[INFO] Creating embeddings...")
     instruction = "Represent the document for retrieval:"
     embeddings = []
 
     for chunk in tqdm(chunks, desc="Embedding chunks"):
-        embedding = model.encode([[instruction, chunk]])
+        embedding = model.encode([[instruction, chunk]], batch_size=16)
         embeddings.append(embedding[0])
 
     embeddings = np.array(embeddings)
