@@ -1,12 +1,11 @@
 sentence-transformers
-openai
-torch
+torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 google-generativeai
 dotenv
 numpy
 # ollama pull mistral
-pymupdf
-langchain
+mistral
+pdfplumber
 InstructorEmbedding
 faiss-cpu
 fastapi
